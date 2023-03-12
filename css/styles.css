@@ -1,0 +1,48 @@
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
+h1,
+footer,
+h2 {
+  text-align: center;
+}
+
+.img-section {
+  display: flex;
+  justify-content: center;
+}
+
+img {
+  width: 20%;
+  height: 300px;
+  border-radius: 20px;
+  filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.4));
+  margin: 20px;
+}
+
+#results-btn {
+  margin: auto auto;
+  background-color: rgb(217, 7, 7);
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+#results-btn,
+#display-results {
+  display: none;
+}
+
+ul {
+  display: table;
+  margin: 0 auto;
+}
+
+li {
+  text-align: left;
+}
+
+footer {
+  padding: 20px;
+}
