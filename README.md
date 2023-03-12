@@ -13,6 +13,6 @@ I build an a site for Odd Duck Products Co that displays images of products that
 
 ### Lighthouse Accessibility Report Score
 
-* Provide a screenshot of your score after running a Lighthouse Accessibility report.
+![Lighthouse accessibility score](/img/lighthouse.png)
 
 ### Reflections and Comments
