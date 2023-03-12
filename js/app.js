@@ -14,7 +14,7 @@ const STATE = {
 // PRODUCT CONSTRUCTOR
 function Product(name, fileExtension = 'jpg') {
   this.name = name; // maybe change this later
-  this.filePath = `img/${name}.${fileExtension}`;
+  this.filePath = `/img/${name}.${fileExtension}`;
   this.imgShown = 0;
   this.imgClickedAmount = 0;
 
