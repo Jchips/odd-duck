@@ -6,6 +6,7 @@ let viewResultsBtn = document.getElementById('results-btn');
 
 // GLOBAL VARIABLES
 let roundsLeft = 25;
+let imagesIndices = [];
 
 const STATE = {
   products: [],
@@ -50,7 +51,7 @@ function generateProducts() {
 
 // Displays 3 random images of the products on the page
 function renderProducts() {
-  let getImgs = document.querySelectorAll('img');
+  let getImgs = document.querySelectorAll('.product-img');
   let randomImgs = [];
 
   let indexOne = generateProducts();
@@ -60,21 +61,19 @@ function renderProducts() {
   let indexThree = generateProducts();
   console.log("index 3: " + indexThree); // delete later
 
-  while (indexOne === indexTwo) {
-    indexOne = generateProducts();
+  while (imagesIndices.length < 6) {
+    let index = generateProducts();
+  
+    if (imagesIndices.includes(index)) {
+      index = generateProducts();
+    } else {
+      imagesIndices.push(index);
+    }
   }
 
-  while (indexOne === indexThree) {
-    indexOne = generateProducts();
+  for (let i = 0; i < 3; i++) {
+    randomImgs.push(imagesIndices.shift());
   }
-
-  while (indexTwo === indexThree) {
-    indexTwo = generateProducts();
-  }
- 
-  randomImgs.push(indexOne);
-  randomImgs.push(indexTwo);
-  randomImgs.push(indexThree);
 
   // puts the 3 random images on the index page
   for (let i = 0; i < randomImgs.length; i++) {
@@ -87,13 +86,11 @@ function renderProducts() {
 
 // Displays another random 3 images when user clicks (votes on) one of the images
 function handleClick(event) {
-  let displayResults = document.getElementById('display-results');
   console.log("") // delete later
   roundsLeft--;
   console.log(`Rounds left: ${roundsLeft}`); // delete later
   if (roundsLeft === 0) {
     viewResultsBtn.style.display = "block";
-    displayResults.style.display = "block";
     imgSection.removeEventListener('click', handleClick);
   }
 
@@ -113,12 +110,59 @@ function handleClick(event) {
 // displays the final results when user presses the 'view results button
 function handleShowResults(event) {
   viewResultsBtn.removeEventListener('click', handleShowResults);
+  viewResultsBtn.style.display = 'none'; // Makes button disappear
   let ul = document.getElementById('results-list');
   for(let i = 0; i < STATE.products.length; i++) {
     let li = document.createElement('li');
     li.textContent = `${STATE.products[i].name}: ${STATE.products[i].imgClickedAmount} votes, and was seen ${STATE.products[i].imgShown} times.`
     ul.appendChild(li);
   }
+
+  renderChart();
+}
+
+function renderChart() {
+  const ctx = document.getElementById('chart');
+  const h2 = document.getElementById('bar-chart-header');
+  h2.style.display = 'block';
+
+  let productNames = [];
+  let totalVotes = [];
+  let imgShownAmount = [];
+
+  for (let i = 0; i < STATE.products.length; i++) {
+    productNames.push(STATE.products[i].name);
+    totalVotes.push(STATE.products[i].imgClickedAmount);
+    imgShownAmount.push(STATE.products[i].imgShown);
+  }
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: productNames,
+      datasets: [{
+        label: '# of Votes',
+        data: totalVotes,
+        borderWidth: 1,
+        backgroundColor: '#51cf66'
+        // backgroundColor: '#FF5733'
+      },
+      {
+        label: '# of Times Shown',
+        data: imgShownAmount,
+        borderWidth: 1,
+        backgroundColor: '#4dabf7'
+        // backgroundColor: '#8817d4'
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
 }
 
 // EVENT LISTENERS
