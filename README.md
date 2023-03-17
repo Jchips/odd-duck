@@ -15,4 +15,6 @@ I build an a site for Odd Duck Products Co that displays images of products that
 
 ![Lighthouse accessibility score](/img/lighthouse.png)
 
+![Lighthouse accessibility score](/img/lighthouse.png)
+
 ### Reflections and Comments
