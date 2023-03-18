@@ -3,9 +3,10 @@
 // DOM REFERENCES
 let imgSection = document.getElementById('img-section');
 let viewResultsBtn = document.getElementById('results-btn');
+let resetDataBtn = document.getElementById('reset-btn');
 
 // GLOBAL VARIABLES
-let roundsLeft = 25;
+let roundsLeft = 5;
 let imagesIndices = [];
 
 const STATE = {
@@ -23,25 +24,30 @@ function Product(name, fileExtension = 'jpg') {
 }
 
 // PRODUCT INSTANCES
-let bag = new Product('bag');
-let banana = new Product('banana');
-let bathroom = new Product('bathroom');
-let boots = new Product('boots');
-let breakfast = new Product('breakfast');
-let bubblegum = new Product('bubblegum');
-let chair = new Product('chair');
-let cthulhu = new Product('cthulhu');
-let dogDuck = new Product('dog-duck');
-let dragon = new Product('dragon');
-let pen = new Product('pen');
-let petSweep = new Product('pet-sweep');
-let scissors = new Product('scissors');
-let shark = new Product('shark');
-let sweep = new Product('sweep', 'png');
-let tauntaun = new Product('tauntaun');
-let unicorn = new Product('unicorn');
-let waterCan = new Product('water-can');
-let wineGlass = new Product('wine-glass');
+if (localStorage.getItem('odd duck')) {
+  let data = JSON.parse(localStorage.getItem('odd duck'));
+  STATE.products = data;
+} else {
+  let bag = new Product('bag');
+  let banana = new Product('banana');
+  let bathroom = new Product('bathroom');
+  let boots = new Product('boots');
+  let breakfast = new Product('breakfast');
+  let bubblegum = new Product('bubblegum');
+  let chair = new Product('chair');
+  let cthulhu = new Product('cthulhu');
+  let dogDuck = new Product('dog-duck');
+  let dragon = new Product('dragon');
+  let pen = new Product('pen');
+  let petSweep = new Product('pet-sweep');
+  let scissors = new Product('scissors');
+  let shark = new Product('shark');
+  let sweep = new Product('sweep', 'png');
+  let tauntaun = new Product('tauntaun');
+  let unicorn = new Product('unicorn');
+  let waterCan = new Product('water-can');
+  let wineGlass = new Product('wine-glass');
+}
 
 // Generates a random number (index) within the products array length
 // W3 Resources: Math.floor(Math.random()*items.length)
@@ -92,6 +98,9 @@ function handleClick(event) {
   if (roundsLeft === 0) {
     viewResultsBtn.style.display = "block";
     imgSection.removeEventListener('click', handleClick);
+
+    let data = JSON.stringify(STATE.products);
+    localStorage.setItem('odd duck', data);
   }
 
   let clickedImg = event.target.alt;
@@ -111,6 +120,7 @@ function handleClick(event) {
 function handleShowResults(event) {
   viewResultsBtn.removeEventListener('click', handleShowResults);
   viewResultsBtn.style.display = 'none'; // Makes button disappear
+  resetDataBtn.style.display = 'block';
   let ul = document.getElementById('results-list');
   for(let i = 0; i < STATE.products.length; i++) {
     let li = document.createElement('li');
@@ -121,6 +131,7 @@ function handleShowResults(event) {
   renderChart();
 }
 
+// displays the chart
 function renderChart() {
   const ctx = document.getElementById('chart');
   const h2 = document.getElementById('bar-chart-header');
@@ -165,9 +176,16 @@ function renderChart() {
   });
 }
 
+// clears all the data from local storage and reloads the page
+function handleResetData () {
+  localStorage.clear();
+  location.reload(true);
+}
+
 // EVENT LISTENERS
 imgSection.addEventListener('click', handleClick);
 viewResultsBtn.addEventListener('click', handleShowResults);
+resetDataBtn.addEventListener('click', handleResetData);
 
 // FUNCTION CALLS
 renderProducts();
