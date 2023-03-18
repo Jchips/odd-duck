@@ -79,7 +79,8 @@ canvas {
   padding: 0 20px;
 }
 
-#results-btn {
+#results-btn,
+#reset-btn {
   margin: auto auto;
   background-color: rgb(217, 7, 7);
   color: white;
@@ -88,8 +89,13 @@ canvas {
 }
 
 #results-btn,
+#reset-btn,
 #display-results {
   display: none;
+}
+
+#reset-btn {
+  margin: 10px auto;
 }
 
 ul {
